@@ -1,0 +1,32 @@
+CREATE TABLE klient (
+id INT IDENTITY(1,1) PRIMARY KEY,
+imie VARCHAR(255) NOT NULL,
+nazwisko VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE towar (
+id INT IDENTITY(1,1) PRIMARY KEY,
+nazwa VARCHAR(255) NOT NULL,
+opis VARCHAR(512) NOT NULL,
+ilos_sztuk INT NOT NULL,
+cena_netto MONEY NOT NULL CHECK(cena_netto>0),
+podatek CHAR(3) NOT NULL
+);
+
+CREATE TABLE zakup(
+id INT IDENTITY(1,1) PRIMARY KEY,
+kilent_id INT NOT NULL REFERENCES
+klient(id) ON UPDATE CASCADE,
+data_zakupu DATE NOT NULL
+);
+
+
+CREATE TABLE koszyk (
+zakup_id INT NOT NULL PRIMARY KEY FOREIGN KEY
+REFERENCES zakup(id),
+towar_id INT NOT NULL REFERENCES
+towar(id) ON UPDATE CASCADE,
+ilosc INT NOT NULL,
+cena_netto MONEY CHECK(cena_netto>=0),
+podatek CHAR(3) NOT NULL
+);
