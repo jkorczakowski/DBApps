@@ -55,6 +55,8 @@ scanf("%s",user1);
 printf("Enter password: \n");
 scanf("%s",pass1);
 
+int opt = -1;
+
 char data[1024] = {0};
 snprintf(data,sizeof(data),"%s %s %s%s %s%s %s%s",host,port,dbname,dbname1,user,user1,pass,pass1);
 
@@ -70,6 +72,31 @@ printf("PGUSER = %s\n", PQuser(conn));
 printf("PGDPASSWORD = %s\n", PQpass(conn));
 printf("PGDHOST = %s\n", PQhost(conn));
 printf("PGDPORT = %s\n", PQport(conn));
+
+while(opt!=0){
+
+
+printf("1)Display\n");
+scanf("%d",opt);
+switch(opt)
+{
+  case 1:
+  doSQL(conn,"SELECT * FROM book");
+  break;
+  
+  case 0:
+  exit(0);
+  break;
+
+  default:
+  printf("Wrong option");
+  break;
+
+
+}
+}
+
+
 doSQL(conn, "SELECT * from book");
 }
 
