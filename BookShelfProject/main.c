@@ -4,7 +4,7 @@
 #include<libpq-fe.h>
 
 
-void toHTML()
+void toHTML(PGconn *conn)
 {
 FILE *f = fopen("BSP.html","w");
 if (f==NULL)
@@ -13,13 +13,39 @@ if (f==NULL)
 	return;
 }
 
+
+
 //fprintf(f,"<!DOCTYPE html>\n<html lang=\"pl\">\n<head>\n <meta charset=\"tf-8\"/>\n <title>BookShelfProject</title>\n/</head>\n<body>\n<header><h1>Your Books</h1></header>\n);
 
-fprintf(f,"<!DOCTYPE html>\n<html lang=\"pl\">\n<head>\n<meta charset=\"tf-8\">\n<title>BookShelfProject</title>\n</head>\n<body>\n<header><h1>Your Books</h1></header>\n");
 
+
+
+int m,n,nrows,nfields;
+
+PGresult *result;
+result = PQexec(conn, "SELECT * FROM book;");
+if (PQresultStatus(result) == !f || PGRES_TUPLES_OK)
+{
+nrows = PQntuples(result);
+nfields = PQnfields(result);
+
+fprintf(f,"<!DOCTYPE html>\n<html lang=\"pl\">\n<head>\n<meta charset=\"tf-8\">\n<title>BookShelfProject</title>\n</head>\n<body>\n<header><h1>Your Books</h1></header>\n<table>\n");
+
+fprintf(f,"<tr>\n<th>ID</th>\n<th>Title</th>\n<th>Author</th>\n<th>ISBN</th>\n<th>RATING</th>\n<th>Release Date</th>\n<th>Publisher</th>\n</tr>\n");
+
+for(m=0;m<nrows;m++)
+{
+fprintf(f, "<tr>\n");
+ for (n=0;n<nfields;n++)
+{
+fprintf(f,"<td>%s</td>\n", PQgetvalue(result,n,n));
+}
+fprintf(f, "</tr>\n");
+}
+fprintf(f,"</table>\n</body>\n</html>");
 
 fclose(f);
-}
+}}
 
 
 
@@ -42,8 +68,8 @@ void doSQL(PGconn *conn, char *command)
       int m, n;
       int nrows = PQntuples(result);
       int nfields = PQnfields(result);
-      printf("number of rows returned = %d\n", nrows);
-      printf("number of fields returned = %d\n", nfields);
+     printf("number of rows returned = %d\n", nrows);
+     printf("number of fields returned = %d\n", nfields);
       for(m = 0; m < nrows; m++) {
 	for(n = 0; n < nfields; n++)
 	  printf(" %s = %s(%d),", 
@@ -162,7 +188,7 @@ switch(opt)
   break;
 
   case 4:
-  toHTML();
+  toHTML(conn);
   break;
 
   
