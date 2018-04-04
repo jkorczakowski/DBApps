@@ -1,3 +1,4 @@
+#include<unistd.h>
 #include<stdlib.h>
 #include<stdio.h>
 #include<libpq-fe.h>
@@ -42,7 +43,7 @@ char user[] = "user=";
 char pass[] = "password=";
 char dbname1[20];
 char user1[20];
-char pass1[20];
+char *pass1;
 char delete1[] = "DELETE FROM BOOK WHERE id=";
 char delete2[50] = {0};
 char modTitlePre[] = "UPDATE BOOK SET title='";
@@ -68,8 +69,9 @@ printf("Enter dbname: \n");
 scanf("%s",dbname1);
 printf("Enter user name: \n");
 scanf("%s",user1);
-printf("Enter password: \n");
-scanf("%s",pass1);
+pass1 = getpass("Enter password: \n");
+//printf("Enter password: \n");
+//scanf("%s",pass1);
 
 int opt = -1;
 int record;
