@@ -120,7 +120,7 @@ char update[150] = {0};
 printf("Enter host: \n");
 scanf("%s",host1);
 printf("Enter port: \n");
-scanf("%d",&port1)
+scanf("%d",&port1);
 printf("Enter dbname: \n");
 scanf("%s",dbname1);
 printf("Enter user name: \n");
@@ -133,7 +133,7 @@ int opt = -1;
 int record;
 
 char data[1024] = {0};
-snprintf(data,sizeof(data),"%s%s %s%s %s%s %s%s %s%s",host,host1,port,port1,dbname,dbname1,user,user1,pass,pass1);
+snprintf(data,sizeof(data),"%s%s %s%d %s%s %s%s %s%s",host,host1,port,port1,dbname,dbname1,user,user1,pass,pass1);
 
 printf("%s\n",data);
 
