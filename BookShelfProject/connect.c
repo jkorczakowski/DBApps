@@ -6,12 +6,8 @@ void doSQL(PGconn *conn, char *command)
 {
   PGresult *result;
 
-//  printf("%s\n", command);
 
   result = PQexec(conn, command);
-//  printf("status is %s\n", PQresStatus(PQresultStatus(result)));
-//  printf("#rows affected %s\n", PQcmdTuples(result));
-//  printf("result message: %s\n", PQresultErrorMessage(result));
 
   switch(PQresultStatus(result)) {
   case PGRES_TUPLES_OK:
@@ -47,7 +43,8 @@ char pass[] = "password=";
 char dbname1[20];
 char user1[20];
 char pass1[20];
-
+char delete1[] = "DELETE FROM BOOK WHERE id_book=";
+char delete2[50] = {0};
 printf("Enter dbname: \n");
 scanf("%s",dbname1);
 printf("Enter user name: \n");
@@ -56,6 +53,7 @@ printf("Enter password: \n");
 scanf("%s",pass1);
 
 int opt = -1;
+int record;
 
 char data[1024] = {0};
 snprintf(data,sizeof(data),"%s %s %s%s %s%s %s%s",host,port,dbname,dbname1,user,user1,pass,pass1);
@@ -76,28 +74,38 @@ printf("PGDPORT = %s\n", PQport(conn));
 while(opt!=0){
 
 
-printf("1)Display\n");
-scanf("%d",opt);
+printf("1)Display records\n");
+printf("2)Delete\n");
+printf("3)Modify\n");
+printf("4)Exit\n");
+scanf("%d",&opt);
+
 switch(opt)
 {
   case 1:
   doSQL(conn,"SELECT * FROM book");
   break;
+
+  case 2:
+  printf("Enter record ID to delete\n");
+  scanf("%d",&record);
+  snprintf(delete2,sizeof(delete2),"%s%d",delete1,record);
+  doSQL(conn,delete2);
+  break;
+
   
   case 0:
   exit(0);
   break;
 
   default:
-  printf("Wrong option");
+  printf("Wrong option\n");
   break;
 
 
 }
 }
 
-
-doSQL(conn, "SELECT * from book");
 }
 
 else
