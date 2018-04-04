@@ -3,6 +3,37 @@
 #include<libpq-fe.h>
 
 void doSQL(PGconn *conn, char *command)
+{
+  PGresult *result;
+
+//  printf("%s\n", command);
+
+  result = PQexec(conn, command);
+//  printf("status is %s\n", PQresStatus(PQresultStatus(result)));
+//  printf("#rows affected %s\n", PQcmdTuples(result));
+//  printf("result message: %s\n", PQresultErrorMessage(result));
+
+  switch(PQresultStatus(result)) {
+  case PGRES_TUPLES_OK:
+    {
+      int m, n;
+      int nrows = PQntuples(result);
+      int nfields = PQnfields(result);
+      printf("number of rows returned = %d\n", nrows);
+      printf("number of fields returned = %d\n", nfields);
+      for(m = 0; m < nrows; m++) {
+	for(n = 0; n < nfields; n++)
+	  printf(" %s = %s(%d),", 
+		 PQfname(result, n), 
+		 PQgetvalue(result, m, n),
+		 // rozmiar pola w bajtach
+		 PQgetlength(result, m, n));
+	printf("\n");
+      }
+    }
+  }
+  PQclear(result);
+}
 
 
 int main()
@@ -39,6 +70,7 @@ printf("PGUSER = %s\n", PQuser(conn));
 printf("PGDPASSWORD = %s\n", PQpass(conn));
 printf("PGDHOST = %s\n", PQhost(conn));
 printf("PGDPORT = %s\n", PQport(conn));
+doSQL(conn, "SELECT * from book");
 }
 
 else
