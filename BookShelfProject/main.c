@@ -4,7 +4,7 @@
 
 int main()
 {
-PGconn *myconnection = PQconnectdb("host=localhost port=5432 dbname=BookShelfProject user=postgres password=psql9719");
+PGconn *myconnection = PQconnectdb("host=localhost port=5432 dbname=BookShelfProject user=postgres password=dupa");
 if(PQstatus(myconnection) == CONNECTION_OK){
  printf("Connection made\n");
  printf("PGDBNAME = %s\n",PQdb(myconnection));
