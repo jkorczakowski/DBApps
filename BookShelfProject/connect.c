@@ -45,20 +45,20 @@ char user1[20];
 char pass1[20];
 char delete1[] = "DELETE FROM BOOK WHERE id=";
 char delete2[50] = {0};
-char modTitlePre[] = "UPDATE BOOK SET title =";
+char modTitlePre[] = "UPDATE BOOK SET title='";
 char modTitle[20];
-char modAuthorPre = ", author=";
+char modAuthorPre[] = "', author='";
 char modAuthor[30];
-char modISBNPre = ", isbn=";
+char modISBNPre[] = "', isbn='";
 char modISBN[13];
-char modRatingPre[] = ", rating=";
-int modRating;
-char modRelDatePre[] = ", release_date=";
-char modRelDate[10];
-char modPublisherPre[] = ", publisher=";
+char modRatingPre[] = "', rating=";
+int modRating = 0;
+char modRelDatePre[] = ", release_date='";
+char modRelDate[12];
+char modPublisherPre[] = "', publisher='";
 char modPublisher[30];
-char where[] = " WHERE id=";
-char update[100] = {0};
+char where[] = "' WHERE id=";
+char update[150] = {0};
 
 
 
@@ -122,14 +122,16 @@ switch(opt)
   printf("Set new isbn: \n");
   scanf("%s",modISBN);
   printf("Set new rating: \n");
-  scanf("%d",modRating);
-  printf("Set new release date (format eg. 2012-01-01): \n");
+  scanf("%d",&modRating);
+  printf("Set new release date (format eg. \'2012-01-01\'): \n");
   scanf("%s",modRelDate);
   printf("Set new publisher: \n");
   scanf("%s",modPublisher);
 
-  snprintf(update,sizeof(update),"%s%s%s%s%s%s%s%d%s%s%s%s%s%d",modTitlePre,modTitle,modAuthorPre,modAuthor,modISBNPre,modISBN,modRatingPre,modRating,modRelDatePre,modRelDate,modPublisherPre,modPublisher,where,record);
+  snprintf(update,sizeof(update),"%s%s%s%s%s%s%s%d%s%s%s%s%s%d%s",modTitlePre,modTitle,modAuthorPre,modAuthor,modISBNPre,modISBN,modRatingPre,modRating,modRelDatePre,modRelDate,modPublisherPre,modPublisher,where,record,";");
   printf("%s\n",update);
+  doSQL(conn,update);
+  break;
 
   
   case 0:
