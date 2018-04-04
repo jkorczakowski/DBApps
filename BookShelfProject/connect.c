@@ -43,7 +43,7 @@ char pass[] = "password=";
 char dbname1[20];
 char user1[20];
 char pass1[20];
-char delete1[] = "DELETE FROM BOOK WHERE id_book=";
+char delete1[] = "DELETE FROM BOOK WHERE id=";
 char delete2[50] = {0};
 printf("Enter dbname: \n");
 scanf("%s",dbname1);
@@ -77,7 +77,7 @@ while(opt!=0){
 printf("1)Display records\n");
 printf("2)Delete\n");
 printf("3)Modify\n");
-printf("4)Exit\n");
+printf("0)Exit\n");
 scanf("%d",&opt);
 
 switch(opt)
