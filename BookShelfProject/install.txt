@@ -1,0 +1,11 @@
+sudo yum install postgresql-server postgresql-contrib postgresql-devel
+sudo yum install gcc
+sudo postgresql-setup initdb
+sudo vi /var/lib/pgsql/data/pg_hba.conf (changing ident to md5)
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+sudo -i -u postgres
+psql
+\password postgres
+psql as password
+
